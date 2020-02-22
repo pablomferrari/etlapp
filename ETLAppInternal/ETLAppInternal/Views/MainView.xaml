@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ETLAppInternal.Views.MainView"
+             Title="ETL Sample Collection"
+             xmlns:pages="clr-namespace:ETLAppInternal.Views"
+             xmlns:utility="clr-namespace:ETLAppInternal.Utility;assembly=ETLAppInternal"
+             utility:ViewModelLocator.AutoWireViewModel="True"
+                  MasterBehavior="Popover">
+    <MasterDetailPage.Master>
+        <pages:MenuView BindingContext="{Binding MenuViewModel}" />
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <ContentPage></ContentPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

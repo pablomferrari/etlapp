@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ETLAppInternal.Views.RoomsView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:ETLAppInternal.Behaviors;assembly=ETLAppInternal"
+    xmlns:utility="clr-namespace:ETLAppInternal.Utility;assembly=ETLAppInternal"
+    Title="Add Rooms"
+    utility:ViewModelLocator.AutoWireViewModel="True">
+    <StackLayout>
+        <Grid Padding="10" BackgroundColor="{StaticResource PrimaryLight}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Entry
+                Grid.Column="0"
+                HorizontalOptions="FillAndExpand"
+                Placeholder="Search..."
+                Text="{Binding Search}"
+                VerticalOptions="Center" />
+            <Button
+                x:Name="Done"
+                Grid.Column="1"
+                Command="{Binding DoneCommand}"
+                HorizontalOptions="FillAndExpand"
+                Style="{StaticResource SubmitButton}"
+                Text="Done"
+                VerticalOptions="Center" />
+        </Grid>
+        <ActivityIndicator
+            HorizontalOptions="CenterAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand"
+            Color="{StaticResource Accent}" />
+        <!--  Built in Cells  -->
+        <ListView
+            x:Name="ListView"
+            CachingStrategy="RecycleElement"
+            IsPullToRefreshEnabled="true"
+            ItemsSource="{Binding FilteredRooms}"
+            SelectionMode="None"
+            SeparatorVisibility="Default">
+            <ListView.Behaviors>
+                <behaviors:EventToCommandBehavior
+                    Command="{Binding SelectedCommand}"
+                    EventArgsConverter="{StaticResource LocalItemTappedConverter}"
+                    EventName="ItemTapped" />
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <SwitchCell On="{Binding Selected}" Text="{Binding Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

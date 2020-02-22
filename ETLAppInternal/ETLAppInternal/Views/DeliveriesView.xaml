@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:utility="clr-namespace:ETLAppInternal.Utility;assembly=ETLAppInternal"
+             xmlns:behaviors="clr-namespace:ETLAppInternal.Behaviors;assembly=ETLAppInternal"
+             xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             x:Class="ETLAppInternal.Views.DeliveriesView"
+             Title="CoC Data"
+             utility:ViewModelLocator.AutoWireViewModel="True">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Style="{StaticResource H1}" Text="{Binding Title}" HorizontalOptions="CenterAndExpand" />
+            <ActivityIndicator
+                HorizontalOptions="CenterAndExpand"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="CenterAndExpand"
+                Color="{StaticResource Accent}" />
+            <!--  Built in Cells  -->
+            <Label Style="{StaticResource FormLabelStyle}" Text="Turn Around" />
+            <autocomplete:SfAutoComplete
+                AutoCompleteMode="Suggest"
+                DataSource="{Binding TurnAroundOptions}"
+                DropDownCornerRadius="15"
+                DropDownItemHeight="50"
+                HeightRequest="50"
+                ShowSuggestionsOnFocus="true"
+                Text="{Binding TurnAround}"
+                TextColor="{StaticResource PrimaryText}"
+                TextSize="18" />
+
+            <Label Style="{StaticResource FormLabelStyle}" Text="Plm Instructions" />
+            <ListView
+                x:Name="ListView"
+                CachingStrategy="RecycleElement"
+                IsPullToRefreshEnabled="true"
+                ItemsSource="{Binding PlmInstructions}"
+                SelectionMode="None"
+                SeparatorVisibility="Default">
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        Command="{Binding SelectedCommand}"
+                        EventArgsConverter="{StaticResource LocalItemTappedConverter}"
+                        EventName="ItemTapped" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <SwitchCell On="{Binding Selected}" Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button 
+                x:Name="SaveButton"
+                Style="{StaticResource SubmitButton}"  
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                IsVisible="{Binding CanSave}"
+                Text="Save" 
+                Command="{Binding OnSaveChangesCommand}" 
+            ></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

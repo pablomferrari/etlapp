@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Name="Materials"
+    x:Class="ETLAppInternal.Views.MaterialListView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:ETLAppInternal.Behaviors;assembly=ETLAppInternal"
+    xmlns:utility="clr-namespace:ETLAppInternal.Utility;assembly=ETLAppInternal"
+    Title="Materials"
+    utility:ViewModelLocator.AutoWireViewModel="True">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding AddCommand}"
+            Text="Add" 
+            Order="Primary"/>
+        <ToolbarItem
+            Command="{Binding DeliverCommand}"
+            Text="Set CoC Details" 
+            Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <Grid Padding="10" BackgroundColor="{StaticResource PrimaryLight}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                Grid.Row="0"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource H1}"
+                Text="{Binding Header}" />
+            <Label
+                Grid.Row="1"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource H2}"
+                Text="{Binding Address}" />
+            <Entry
+                Grid.Row="2"
+                Placeholder="Search Materials..."
+                Text="{Binding Search, Mode=TwoWay}"
+                VerticalOptions="FillAndExpand" />
+        </Grid>
+        <ActivityIndicator
+            HorizontalOptions="CenterAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand"
+            Color="{StaticResource Accent}" />
+
+        <ListView
+            x:Name="ListView"
+            CachingStrategy="RecycleElement"
+            IsPullToRefreshEnabled="false"
+            ItemsSource="{Binding FilteredMaterials}"
+            RowHeight="75"
+            SelectionMode="None"
+            SeparatorVisibility="Default">
+            <ListView.Behaviors>
+                <behaviors:EventToCommandBehavior
+                    Command="{Binding ViewSamplesCommand}"
+                    EventArgsConverter="{StaticResource LocalItemTappedConverter}"
+                    EventName="ItemTapped" />
+            </ListView.Behaviors>
+            <!--  Built in Cells  -->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Command="{Binding Path=BindingContext.MaterialTappedCommand, Source={x:Reference Name=Materials}}"
+                                      CommandParameter="{Binding .}"
+                                      IsDestructive="true"
+                                      Text="Edit">
+                            </MenuItem>
+                            <MenuItem Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=Materials}}"
+                                      CommandParameter="{Binding .}"
+                                      IsDestructive="true"
+                                      Text="Delete">
+                            </MenuItem>
+                        </ViewCell.ContextActions>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                FontSize="Medium"
+                                Text="{Binding ClientMaterialId}"
+                                TextColor="{StaticResource PrimaryText}"
+                                VerticalOptions="CenterAndExpand" />
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontSize="Medium"
+                                Text="{Binding Description}"
+                                TextColor="{StaticResource SecondaryText}"
+                                VerticalOptions="CenterAndExpand" />
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackLayout>
+            <Button
+                x:Name="DoneButton"
+                Command="{Binding DoneCommand}"
+                HorizontalOptions="FillAndExpand"
+                Text="Done"
+                Style="{StaticResource ActionButton}"
+                VerticalOptions="FillAndExpand" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

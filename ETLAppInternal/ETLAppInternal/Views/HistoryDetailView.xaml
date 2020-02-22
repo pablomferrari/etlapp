@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:utility="clr-namespace:ETLAppInternal.Utility;assembly=ETLAppInternal"
+             xmlns:behaviors="clr-namespace:ETLAppInternal.Behaviors;assembly=ETLAppInternal"
+             x:Class="ETLAppInternal.Views.HistoryDetailView"
+             Title="Sent Data"
+             utility:ViewModelLocator.AutoWireViewModel="True">
+    <ContentPage.Content>
+            <StackLayout>
+                <Label Margin="10" Style="{StaticResource H1}" TextColor="{StaticResource PrimaryDark}" BackgroundColor="{StaticResource SecondaryAccent}" 
+                       Text="{Binding Key}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
+            <ActivityIndicator
+                    HorizontalOptions="CenterAndExpand"
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="{Binding IsBusy}"
+                    VerticalOptions="CenterAndExpand"
+                    Color="{StaticResource Accent}" />
+                <ListView
+                    Margin="10"
+                    CachingStrategy="RecycleElement"
+                    IsPullToRefreshEnabled="False"
+                    ItemsSource="{Binding NewMaterials}"
+                    SelectionMode="None"
+                    SeparatorVisibility="Default">
+                    <ListView.Header>
+                    <Label Text="New Materials" Style="{StaticResource H1}" TextColor="{StaticResource PrimaryDark}" />
+                    </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Header}" Detail="{Binding Description}"></TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView
+                Margin="10"
+                CachingStrategy="RecycleElement"
+                IsPullToRefreshEnabled="False"
+                ItemsSource="{Binding UpdatedMaterials}"
+                SelectionMode="None"
+                SeparatorVisibility="Default">
+                <ListView.Header>
+                    <Label Text="Updated Materials" Style="{StaticResource H1}" TextColor="{StaticResource PrimaryDark}" />
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Header}" Detail="{Binding Description}"></TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView
+                Margin="10"
+                CachingStrategy="RecycleElement"
+                IsPullToRefreshEnabled="False"
+                ItemsSource="{Binding NewSamples}"
+                SelectionMode="None"
+                SeparatorVisibility="Default">
+                <ListView.Header>
+                    <Label Text="New Samples" Style="{StaticResource H1}" TextColor="{StaticResource PrimaryDark}" />
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Header}" Detail="{Binding Description}"></TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView
+                Margin="10"
+                CachingStrategy="RecycleElement"
+                IsPullToRefreshEnabled="False"
+                ItemsSource="{Binding UpdatedSamples}"
+                SelectionMode="None"
+                SeparatorVisibility="Default">
+                <ListView.Header>
+                    <Label Text="Updated Samples" Style="{StaticResource H1}" TextColor="{StaticResource PrimaryDark}" />
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Header}" Detail="{Binding Description}"></TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button
+                x:Name="SaveMaterial"
+                Command="{Binding ResendCommand}"
+                HorizontalOptions="FillAndExpand"
+                Style="{StaticResource SubmitButton}"
+                Text="Resend"
+                VerticalOptions="FillAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:utility="clr-namespace:ETLAppInternal.Utility;assembly=ETLAppInternal"
+             xmlns:xForms="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             xmlns:behaviors="clr-namespace:ETLAppInternal.Behaviors;assembly=ETLAppInternal"
+             x:Class="ETLAppInternal.Views.HistoryListView"
+             Title="Submitted Data Log"
+             utility:ViewModelLocator.AutoWireViewModel="True">
+    <ContentPage.Content>
+        <StackLayout>
+            <ContentView Margin="0, 0, 15, 0">
+                <Label Style="{StaticResource H1}" Text="{Binding Title}" HorizontalOptions="CenterAndExpand" />
+            </ContentView>
+            
+            <ActivityIndicator
+                HorizontalOptions="CenterAndExpand"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="CenterAndExpand"
+                Color="{StaticResource Accent}" />
+            <!--  Built in Cells  -->
+
+            <Label Margin="10" Style="{StaticResource H1}" TextColor="{StaticResource PrimaryDark}" BackgroundColor="{StaticResource SecondaryAccent}" Text="Delivery History" 
+                   HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalOptions="FillAndExpand"/>
+            <ListView
+                x:Name="ListView"
+                CachingStrategy="RecycleElement"
+                IsPullToRefreshEnabled="False"
+                ItemsSource="{Binding Deliveries}"
+                SelectionMode="None"
+                SeparatorVisibility="Default">
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        Command="{Binding SelectedCommand}"
+                        EventArgsConverter="{StaticResource LocalItemTappedConverter}"
+                        EventName="ItemTapped" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label
+                                FontSize="Medium"
+                                Text="{Binding .}"
+                                TextColor="{StaticResource PrimaryText}"
+                                HorizontalOptions="CenterAndExpand" />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

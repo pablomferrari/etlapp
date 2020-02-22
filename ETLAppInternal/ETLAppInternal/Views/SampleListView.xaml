@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    x:Name="Samples"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:utility="clr-namespace:ETLAppInternal.Utility;assembly=ETLAppInternal"
+             xmlns:behaviors="clr-namespace:ETLAppInternal.Behaviors;assembly=ETLAppInternal"
+             x:Class="ETLAppInternal.Views.SampleListView"
+             utility:ViewModelLocator.AutoWireViewModel="True"
+             Title="Samples">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddCommand}" Order="Primary"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <Grid Padding="10" BackgroundColor="{StaticResource PrimaryLight}">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Text="Material Information" 
+                   Style="{StaticResource H1}"  HorizontalOptions="CenterAndExpand"
+                   Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" />
+            <Label Text="{Binding Header}" 
+                   Style="{StaticResource H2}"  HorizontalOptions="CenterAndExpand"
+                   Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" />
+            <Entry Grid.Column="0" Grid.Row="2"
+                   VerticalOptions="FillAndExpand"
+                   Placeholder="Search Samples..." Text="{Binding Search, Mode=TwoWay}"/>
+        </Grid>
+        <ActivityIndicator 
+            IsVisible="{Binding IsBusy}" 
+            IsRunning="{Binding IsBusy}" 
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="CenterAndExpand"
+            Color="{StaticResource Accent}"/>
+        <ListView x:Name="ListView"
+                  ItemsSource="{Binding FilteredSamples}"
+                  CachingStrategy="RecycleElement"
+                  IsPullToRefreshEnabled="False"
+                  RowHeight="75"
+                  SelectionMode="None"
+                  SeparatorVisibility="Default">
+            <ListView.Behaviors>
+                <behaviors:EventToCommandBehavior
+                    Command="{Binding SampleTappedCommand}"
+                    EventArgsConverter="{StaticResource LocalItemTappedConverter}"
+                    EventName="ItemTapped" />
+            </ListView.Behaviors>
+            <!--Built in Cells-->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=Samples}}"
+                                      CommandParameter="{Binding .}"
+                                      IsDestructive="true"
+                                      Text="Delete">
+                            </MenuItem>
+                        </ViewCell.ContextActions>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding ClientSampleId}"
+                                   TextColor="{StaticResource PrimaryText}"
+                                   VerticalOptions="FillAndExpand"
+                                   FontSize="Medium" Grid.Column="0" />
+                            <Label  Text="{Binding SampleLocation}"
+                                    VerticalOptions="FillAndExpand"
+                                    TextColor="{StaticResource SecondaryText}"
+                                    FontSize="Medium" Grid.Column="1" />
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackLayout>
+            <Button
+                x:Name="DoneButton"
+                Command="{Binding DoneCommand}"
+                HorizontalOptions="FillAndExpand"
+                Text="Done"
+                Style="{StaticResource ActionButton}"
+                VerticalOptions="FillAndExpand" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

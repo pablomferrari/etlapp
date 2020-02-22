@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:utility="clr-namespace:ETLAppInternal.Utility;assembly=ETLAppInternal"
+             x:Class="ETLAppInternal.Views.ReportView"
+             Title="Report"
+             utility:ViewModelLocator.AutoWireViewModel="True">
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout>
+            <Label Text="{Binding Header}"
+                   Style="{StaticResource H1}"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <Label Text="{Binding Detail}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                   Style="{StaticResource FormLabelStyle}"></Label>
+            <Button
+                x:Name="DoneButton"
+                Command="{Binding DoneCommand}"
+                HorizontalOptions="FillAndExpand"
+                Text="Done"
+                Style="{StaticResource ActionButton}"
+                VerticalOptions="End" />
+        </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ETLAppInternal.Views.MaterialDetailView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+    xmlns:behaviors="clr-namespace:ETLAppInternal.Behaviors;assembly=ETLAppInternal"
+    xmlns:utility="clr-namespace:ETLAppInternal.Utility;assembly=ETLAppInternal"
+    Title="Material Form"
+    utility:ViewModelLocator.AutoWireViewModel="True">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding ViewSamplesCommand}" Text="Samples" />
+        <ToolbarItem Command="{Binding OnSaveChangesCommand}" Text="Save" />
+    </ContentPage.ToolbarItems>
+    <StackLayout Padding="10" BackgroundColor="{StaticResource WindowBackground}">
+        <StackLayout x:Name="Header" BackgroundColor="{StaticResource PrimaryLight}">
+            <Label
+                FontSize="Large"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource PageHeaderStyle}"
+                Text="Material Form"
+                TextColor="{StaticResource PrimaryDark}"
+                VerticalOptions="CenterAndExpand" />
+        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout Padding="15">
+                    <Switch
+                        x:Name="CanLeave"
+                        IsToggled="{Binding CanLeave, Mode=TwoWay}"
+                        IsVisible="false" />
+                    <!--  ID  -->
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Material Id:" />
+                    <Entry Style="{StaticResource FormEntryStyle}" Text="{Binding ClientMaterialId, Mode=TwoWay}" />
+
+                    <!--  MATERIAL  -->
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Material" />
+                    <autocomplete:SfAutoComplete
+                        AutoCompleteMode="Suggest"
+                        DataSource="{Binding Materials}"
+                        DropDownCornerRadius="15"
+                        DropDownItemHeight="50"
+                        HeightRequest="50"
+                        ShowSuggestionsOnFocus="true"
+                        Text="{Binding Material}"
+                        TextColor="{StaticResource PrimaryText}"
+                        TextSize="18">
+                        <autocomplete:SfAutoComplete.Behaviors>
+                            <behaviors:EventToCommandBehavior Command="{Binding MaterialChangedCommand}" EventName="SelectionChanged" />
+                        </autocomplete:SfAutoComplete.Behaviors>
+                    </autocomplete:SfAutoComplete>
+
+
+                    <!--  MATERIAL SUB  -->
+
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Material Sub" />
+                    <autocomplete:SfAutoComplete
+                        AutoCompleteMode="Suggest"
+                        DataSource="{Binding MaterialSubs}"
+                        DropDownCornerRadius="15"
+                        DropDownItemHeight="50"
+                        HeightRequest="50"
+                        ShowSuggestionsOnFocus="true"
+                        Text="{Binding MaterialSub}"
+                        TextColor="{StaticResource PrimaryText}"
+                        TextSize="18">
+                        <autocomplete:SfAutoComplete.Behaviors>
+                            <behaviors:EventToCommandBehavior Command="{Binding MaterialChangedCommand}" EventName="SelectionChanged" />
+                        </autocomplete:SfAutoComplete.Behaviors>
+                    </autocomplete:SfAutoComplete>
+
+
+                    <!--  CLASSIFICATION  -->
+
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Classification" />
+                    <Picker
+                        Title="Choose"
+                        HorizontalOptions="FillAndExpand"
+                        ItemsSource="{Binding ClassificationList}"
+                        SelectedIndex="{Binding ClassificationIndex, Mode=TwoWay}"
+                        Style="{StaticResource FormPickerStyle}" />
+
+                    <!--  FRIABLE  -->
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Friable" />
+                    <Picker
+                        Title="Choose"
+                        HorizontalOptions="FillAndExpand"
+                        ItemsSource="{Binding FriableList}"
+                        SelectedIndex="{Binding FriableIndex, Mode=TwoWay}"
+                        Style="{StaticResource FormPickerStyle}" />
+
+
+                    <!--  SIZE  -->
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Size" />
+                    <autocomplete:SfAutoComplete
+                        AutoCompleteMode="Suggest"
+                        DataSource="{Binding Sizes}"
+                        DropDownCornerRadius="15"
+                        DropDownItemHeight="50"
+                        HeightRequest="50"
+                        ShowSuggestionsOnFocus="true"
+                        Text="{Binding Size, Mode=TwoWay}"
+                        TextColor="{StaticResource PrimaryText}"
+                        TextSize="18" />
+
+
+                    <!--  UNITS  -->
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Units" />
+                    <Picker
+                        Title="Choose"
+                        HorizontalOptions="FillAndExpand"
+                        ItemsSource="{Binding UnitList}"
+                        SelectedIndex="{Binding UnitIndex, Mode=TwoWay}"
+                        Style="{StaticResource FormPickerStyle}" />
+
+                    <!--  QUANTITY  -->
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Quantity" />
+                    <Entry
+                        Keyboard="Numeric"
+                        Style="{StaticResource FormEntryStyle}"
+                        Text="{Binding QuantityStr, Mode=TwoWay}" >
+                        <Entry.Behaviors>
+                            <behaviors:EntryLengthValidatorBehavior MinLength="1" />
+                        </Entry.Behaviors>
+                    </Entry>
+
+                    <!--  COLOR  -->
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Color" />
+                    <autocomplete:SfAutoComplete
+                        AutoCompleteMode="Suggest"
+                        DataSource="{Binding Colors}"
+                        DropDownCornerRadius="15"
+                        DropDownItemHeight="50"
+                        HeightRequest="50"
+                        ShowSuggestionsOnFocus="true"
+                        Text="{Binding Color}"
+                        TextColor="{StaticResource PrimaryText}"
+                        TextSize="18" />
+
+                    <!--  NOTE1  -->
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Note 1" />
+                    <Entry Style="{StaticResource FormEntryStyle}" Text="{Binding Note1, Mode=TwoWay}" />
+
+                    <!--  NOTE2  -->
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Note 2" />
+                    <Entry Style="{StaticResource FormEntryStyle}" Text="{Binding Note2, Mode=TwoWay}" />
+
+                    <!--  ASSUMED  -->
+                    <Label Style="{StaticResource FormLabelStyle}" Text="Assumed?" />
+                    <Switch HorizontalOptions="Start" IsToggled="{Binding Assumed, Mode=TwoWay}" />
+
+                    <!--  ROOM  -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Style="{StaticResource FormLabelStyle}"
+                            Text="Rooms" />
+                        <Button
+                            x:Name="AddRooms"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Command="{Binding AddRoomsCommand}"
+                            HorizontalOptions="FillAndExpand"
+                            Style="{StaticResource SubmitButton}"
+                            Text="Assign Rooms"
+                            VerticalOptions="FillAndExpand" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Text="{Binding Room}"
+                            VerticalOptions="FillAndExpand" />
+                    </Grid>
+
+                </StackLayout>
+
+                <!--  BUTTONS  -->
+                <StackLayout>
+                    <Button
+                        x:Name="SaveMaterial"
+                        Command="{Binding OnSaveChangesCommand}"
+                        HorizontalOptions="FillAndExpand"
+                        Style="{StaticResource SubmitButton}"
+                        Text="Save Material"
+                        VerticalOptions="FillAndExpand" />
+                    <Button
+                        x:Name="ViewSamples"
+                        Command="{Binding ViewSamplesCommand}"
+                        HorizontalOptions="FillAndExpand"
+                        IsVisible="{Binding CanAddSamples}"
+                        Style="{StaticResource RegularButton}"
+                        Text="View Samples"
+                        VerticalOptions="FillAndExpand" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+</ContentPage>

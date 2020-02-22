@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:utility="clr-namespace:ETLAppInternal.Utility;assembly=ETLAppInternal"
+             x:Class="ETLAppInternal.Views.SampleDetailView"
+             Title="Sample Form"
+             utility:ViewModelLocator.AutoWireViewModel="True">
+    <ContentPage.ToolbarItems></ContentPage.ToolbarItems>
+    <StackLayout Padding="10" BackgroundColor="{StaticResource WindowBackground}">
+        <StackLayout x:Name="Header" BackgroundColor="{StaticResource PrimaryLight}">
+            <Label Text="Sample Form" 
+                   FontSize="Large" 
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="CenterAndExpand"
+                   TextColor="{StaticResource PrimaryDark}"
+                   Style="{StaticResource PageHeaderStyle}"></Label>
+        </StackLayout>
+        <StackLayout Padding="15">
+            <Label Style="{StaticResource FormLabelStyle}" 
+                   Text="Sample Id:" />
+            <Entry Style="{StaticResource FormEntryStyle}" 
+                   Text="{Binding ClientSampleId, Mode=TwoWay}" />
+            <Label Style="{StaticResource FormLabelStyle}" Text="Location" />
+            <Entry Style="{StaticResource FormEntryStyle}" 
+                   Text="{Binding SampleLocation, Mode=TwoWay}" />
+            <Button 
+                x:Name="SaveButton"
+                Style="{StaticResource SubmitButton}"  
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Text="Save Sample" 
+                    Command="{Binding OnSaveChangesCommand}" 
+            ></Button>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
